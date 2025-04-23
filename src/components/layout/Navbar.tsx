@@ -1,11 +1,13 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, Phone, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import AuthDialog from "../auth/AuthDialog";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-sm py-4 fixed top-0 w-full z-50">
@@ -28,7 +30,14 @@ const Navbar = () => {
             <Phone size={18} className="text-primary" />
             <span className="text-gray-700">+7 (XXX) XXX-XX-XX</span>
           </div>
-          <Button className="bg-primary hover:bg-primary/90" onClick={() => window.location.href = '/contacts#appointment'}>Записаться</Button>
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2" 
+            onClick={() => setIsAuthOpen(true)}
+          >
+            <User size={18} />
+            <span>Войти</span>
+          </Button>
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -66,17 +75,21 @@ const Navbar = () => {
               <span className="text-gray-700">+7 (XXX) XXX-XX-XX</span>
             </div>
             <Button 
-              className="bg-primary hover:bg-primary/90 w-full" 
+              variant="outline"
+              className="w-full flex items-center justify-center gap-2"
               onClick={() => {
                 setIsOpen(false);
-                window.location.href = '/contacts#appointment';
+                setIsAuthOpen(true);
               }}
             >
-              Записаться
+              <User size={18} />
+              <span>Войти</span>
             </Button>
           </div>
         </div>
       )}
+
+      <AuthDialog isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </nav>
   );
 };
