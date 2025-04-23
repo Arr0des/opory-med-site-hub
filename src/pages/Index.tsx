@@ -1,6 +1,7 @@
+
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import HeroSection from "@/components/home/HeroSection";
+import SliderSection from "@/components/home/SliderSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import AboutSection from "@/components/home/AboutSection";
@@ -13,7 +14,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        <HeroSection />
+        <SliderSection />
         <AboutSection />
         <ServicesSection />
         <DoctorsSection />
