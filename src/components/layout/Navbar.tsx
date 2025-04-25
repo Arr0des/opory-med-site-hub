@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Phone, User, X } from "lucide-react";
@@ -16,12 +15,10 @@ const Navbar = () => {
           <img 
             src="/logo.png" 
             alt="Точка ОПОРЫ" 
-            className="h-10 w-auto" 
+            className="h-10 w-10 object-contain" 
           />
-          <span className="text-primary text-2xl font-bold">Точка ОПОРЫ</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
           <Link to="/" className="text-gray-700 hover:text-primary font-medium">Главная</Link>
           <Link to="/services" className="text-gray-700 hover:text-primary font-medium">Услуги</Link>
@@ -45,7 +42,6 @@ const Navbar = () => {
           </Button>
         </div>
 
-        {/* Mobile Navigation Toggle */}
         <div className="md:hidden flex items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -56,7 +52,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
       {isOpen && (
         <div className="md:hidden bg-white w-full py-4 px-6 shadow-md absolute top-16 left-0 z-50">
           <div className="flex flex-col space-y-4">
