@@ -1,4 +1,3 @@
-
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -22,7 +21,7 @@ const ContactSection = () => {
                 <MapPin className="text-primary w-6 h-6 mt-1 flex-shrink-0" />
                 <div>
                   <h4 className="font-medium text-gray-800 mb-1">Адрес</h4>
-                  <p className="text-gray-600">г. Москва, ул. Примерная, д. 123</p>
+                  <p className="text-gray-600">г. Орёл, ул. Покровская, д. 32</p>
                 </div>
               </div>
               
