@@ -13,6 +13,11 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm py-4 fixed top-0 w-full z-50">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
+          <img 
+            src="/logo.png" 
+            alt="Точка ОПОРЫ" 
+            className="h-10 w-auto" 
+          />
           <span className="text-primary text-2xl font-bold">Точка ОПОРЫ</span>
         </Link>
 
