@@ -17,6 +17,7 @@ const Navbar = () => {
             alt="Точка ОПОРЫ" 
             className="h-10 w-10 object-contain" 
           />
+          <span className="text-lg font-bold">Точка ОПОРЫ</span>
         </Link>
 
         <div className="hidden md:flex items-center space-x-8">
