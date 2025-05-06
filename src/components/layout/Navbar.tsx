@@ -1,12 +1,23 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Phone, User, X } from "lucide-react";
+import { Menu, Phone, User, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AuthDialog from "../auth/AuthDialog";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   return (
     <nav className="bg-white shadow-sm py-4 fixed top-0 w-full z-50">
@@ -33,14 +44,40 @@ const Navbar = () => {
             <Phone size={18} className="text-primary" />
             <span className="text-gray-700">+7 (XXX) XXX-XX-XX</span>
           </div>
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2" 
-            onClick={() => setIsAuthOpen(true)}
-          >
-            <User size={18} />
-            <span>Войти</span>
-          </Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <User size={18} />
+                  <span>Профиль</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>
+                  {user?.user_metadata?.name || user.email}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/profile" className="w-full cursor-pointer">
+                    Личный кабинет
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={signOut} className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Выйти</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2" 
+              onClick={() => setIsAuthOpen(true)}
+            >
+              <User size={18} />
+              <span>Войти</span>
+            </Button>
+          )}
         </div>
 
         <div className="md:hidden flex items-center">
@@ -75,17 +112,44 @@ const Navbar = () => {
               <Phone size={18} className="text-primary" />
               <span className="text-gray-700">+7 (XXX) XXX-XX-XX</span>
             </div>
-            <Button 
-              variant="outline"
-              className="w-full flex items-center justify-center gap-2"
-              onClick={() => {
-                setIsOpen(false);
-                setIsAuthOpen(true);
-              }}
-            >
-              <User size={18} />
-              <span>Войти</span>
-            </Button>
+            {user ? (
+              <>
+                <Button 
+                  variant="outline" 
+                  className="w-full flex items-center justify-center gap-2"
+                  asChild
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link to="/profile">
+                    <User size={18} />
+                    <span>Профиль</span>
+                  </Link>
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  className="w-full flex items-center justify-center gap-2"
+                  onClick={() => {
+                    setIsOpen(false);
+                    signOut();
+                  }}
+                >
+                  <LogOut size={18} />
+                  <span>Выйти</span>
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2"
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsAuthOpen(true);
+                }}
+              >
+                <User size={18} />
+                <span>Войти</span>
+              </Button>
+            )}
           </div>
         </div>
       )}

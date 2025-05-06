@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email("Введите корректный email"),
@@ -12,6 +15,9 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+  const { signIn } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -20,8 +26,15 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setIsSubmitting(true);
+      await signIn(values.email, values.password);
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,8 +66,15 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Войти
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Вход...
+            </>
+          ) : (
+            "Войти"
+          )}
         </Button>
       </form>
     </Form>
