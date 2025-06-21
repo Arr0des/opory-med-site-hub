@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { NAVIGATION_ITEMS, CONTACT_INFO } from "@/constants/navigation";
 
 const Footer = () => {
   return (
@@ -22,29 +23,16 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Полезные ссылки</h3>
             <ul className="space-y-2">
-              <li>
-                <Link to="/services" className="text-gray-300 hover:text-primary transition-colors">
-                  Услуги
-                </Link>
-              </li>
-              <li>
-                <Link to="/doctors" className="text-gray-300 hover:text-primary transition-colors">
-                  Врачи
-                </Link>
-              </li>
+              {NAVIGATION_ITEMS.slice(1).map((item) => (
+                <li key={item.href}>
+                  <Link to={item.href} className="text-gray-300 hover:text-primary transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link to="/price" className="text-gray-300 hover:text-primary transition-colors">
                   Цены
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-300 hover:text-primary transition-colors">
-                  О нас
-                </Link>
-              </li>
-              <li>
-                <Link to="/contacts" className="text-gray-300 hover:text-primary transition-colors">
-                  Контакты
                 </Link>
               </li>
             </ul>
@@ -73,15 +61,15 @@ const Footer = () => {
             <ul className="space-y-3 text-gray-300">
               <li className="flex items-start space-x-3">
                 <MapPin size={18} className="text-primary mt-1 flex-shrink-0" />
-                <span>г. Орёл, ул. Покровская, д. 32</span>
+                <span>{CONTACT_INFO.address}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={18} className="text-primary flex-shrink-0" />
-                <span>+7 (XXX) XXX-XX-XX</span>
+                <span>{CONTACT_INFO.phone}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={18} className="text-primary flex-shrink-0" />
-                <span>info@tochka-opory.ru</span>
+                <span>{CONTACT_INFO.email}</span>
               </li>
             </ul>
           </div>

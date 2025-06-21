@@ -5,6 +5,8 @@ import { Menu, Phone, User, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AuthDialog from "../auth/AuthDialog";
 import { useAuth } from "@/contexts/AuthContext";
+import MobileMenu from "./MobileMenu";
+import { NAVIGATION_ITEMS, CONTACT_INFO } from "@/constants/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,17 +34,21 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center space-x-8">
-          <Link to="/" className="text-gray-700 hover:text-primary font-medium">Главная</Link>
-          <Link to="/services" className="text-gray-700 hover:text-primary font-medium">Услуги</Link>
-          <Link to="/doctors" className="text-gray-700 hover:text-primary font-medium">Врачи</Link>
-          <Link to="/about" className="text-gray-700 hover:text-primary font-medium">О нас</Link>
-          <Link to="/contacts" className="text-gray-700 hover:text-primary font-medium">Контакты</Link>
+          {NAVIGATION_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              className="text-gray-700 hover:text-primary font-medium"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
 
         <div className="hidden md:flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Phone size={18} className="text-primary" />
-            <span className="text-gray-700">+7 (XXX) XXX-XX-XX</span>
+            <span className="text-gray-700">{CONTACT_INFO.phone}</span>
           </div>
           {user ? (
             <DropdownMenu>
@@ -90,69 +96,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden bg-white w-full py-4 px-6 shadow-md absolute top-16 left-0 z-50">
-          <div className="flex flex-col space-y-4">
-            <Link to="/" className="text-gray-700 hover:text-primary font-medium" onClick={() => setIsOpen(false)}>
-              Главная
-            </Link>
-            <Link to="/services" className="text-gray-700 hover:text-primary font-medium" onClick={() => setIsOpen(false)}>
-              Услуги
-            </Link>
-            <Link to="/doctors" className="text-gray-700 hover:text-primary font-medium" onClick={() => setIsOpen(false)}>
-              Врачи
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-primary font-medium" onClick={() => setIsOpen(false)}>
-              О нас
-            </Link>
-            <Link to="/contacts" className="text-gray-700 hover:text-primary font-medium" onClick={() => setIsOpen(false)}>
-              Контакты
-            </Link>
-            <div className="flex items-center space-x-2 pt-2">
-              <Phone size={18} className="text-primary" />
-              <span className="text-gray-700">+7 (XXX) XXX-XX-XX</span>
-            </div>
-            {user ? (
-              <>
-                <Button 
-                  variant="outline" 
-                  className="w-full flex items-center justify-center gap-2"
-                  asChild
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Link to="/profile">
-                    <User size={18} />
-                    <span>Профиль</span>
-                  </Link>
-                </Button>
-                <Button 
-                  variant="secondary" 
-                  className="w-full flex items-center justify-center gap-2"
-                  onClick={() => {
-                    setIsOpen(false);
-                    signOut();
-                  }}
-                >
-                  <LogOut size={18} />
-                  <span>Выйти</span>
-                </Button>
-              </>
-            ) : (
-              <Button 
-                variant="outline"
-                className="w-full flex items-center justify-center gap-2"
-                onClick={() => {
-                  setIsOpen(false);
-                  setIsAuthOpen(true);
-                }}
-              >
-                <User size={18} />
-                <span>Войти</span>
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
+      <MobileMenu
+        isOpen={isOpen}
+        user={user}
+        onClose={() => setIsOpen(false)}
+        onAuthOpen={() => setIsAuthOpen(true)}
+        onSignOut={signOut}
+      />
 
       <AuthDialog isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </nav>

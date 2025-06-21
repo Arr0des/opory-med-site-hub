@@ -1,16 +1,10 @@
+
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Session, User } from '@supabase/supabase-js'
 import { useToast } from '@/components/ui/use-toast'
-
-type AuthContextType = {
-  session: Session | null
-  user: User | null
-  loading: boolean
-  signIn: (email: string, password: string) => Promise<void>
-  signUp: (email: string, password: string, name: string, phone: string) => Promise<void>
-  signOut: () => Promise<void>
-}
+import { useAuthActions } from '@/hooks/useAuthActions'
+import { AuthContextType } from '@/types/auth'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -19,6 +13,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const { toast } = useToast()
+  const { signIn, signUp, signOut } = useAuthActions()
 
   useEffect(() => {
     const setData = async () => {
@@ -49,94 +44,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [toast])
 
-  const signIn = async (email: string, password: string) => {
+  const handleSignIn = async (email: string, password: string) => {
+    setLoading(true)
     try {
-      setLoading(true)
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-      
-      if (error) {
-        throw error
-      }
-      
-      toast({
-        title: "Успешно!",
-        description: "Вы успешно вошли в систему",
-      })
-    } catch (error: any) {
-      console.error(error)
-      toast({
-        title: "Ошибка входа",
-        description: error?.message || "Проверьте данные и попробуйте снова",
-        variant: "destructive",
-      })
-      throw error
+      await signIn(email, password)
     } finally {
       setLoading(false)
     }
   }
 
-  const signUp = async (email: string, password: string, name: string, phone: string) => {
+  const handleSignUp = async (email: string, password: string, name: string, phone: string) => {
+    setLoading(true)
     try {
-      setLoading(true)
-      
-      // Регистрация пользователя
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            name,
-            phone,
-          }
-        }
-      })
-      
-      if (error) {
-        throw error
-      }
-      
-      toast({
-        title: "Успешно!",
-        description: "Вы успешно зарегистрировались. Проверьте почту для подтверждения аккаунта.",
-      })
-      
-      return data
-    } catch (error: any) {
-      console.error(error)
-      toast({
-        title: "Ошибка регистрации",
-        description: error?.message || "Проверьте данные и попробуйте снова",
-        variant: "destructive",
-      })
-      throw error
+      return await signUp(email, password, name, phone)
     } finally {
       setLoading(false)
     }
   }
 
-  const signOut = async () => {
+  const handleSignOut = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
-      const { error } = await supabase.auth.signOut()
-      
-      if (error) {
-        throw error
-      }
-      
-      toast({
-        title: "Выход выполнен",
-        description: "Вы успешно вышли из системы",
-      })
-    } catch (error: any) {
-      console.error(error)
-      toast({
-        title: "Ошибка",
-        description: error?.message || "Не удалось выйти из системы",
-        variant: "destructive",
-      })
+      await signOut()
     } finally {
       setLoading(false)
     }
@@ -146,9 +75,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     session,
     user,
     loading,
-    signIn,
-    signUp,
-    signOut,
+    signIn: handleSignIn,
+    signUp: handleSignUp,
+    signOut: handleSignOut,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
