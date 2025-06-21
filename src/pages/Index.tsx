@@ -2,7 +2,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SliderSection from "@/components/home/SliderSection";
-import ServicesSection from "@/components/home/ServicesSection";
+import ServicesPreview from "@/components/home/ServicesPreview";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import AboutSection from "@/components/home/AboutSection";
 import ContactSection from "@/components/home/ContactSection";
@@ -16,7 +16,7 @@ const Index = () => {
       <main className="flex-grow">
         <SliderSection />
         <AboutSection />
-        <ServicesSection />
+        <ServicesPreview />
         <DoctorsSection />
         <TestimonialsSection />
         <AppointmentSection />
