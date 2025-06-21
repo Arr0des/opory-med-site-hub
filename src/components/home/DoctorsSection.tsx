@@ -1,5 +1,5 @@
-
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const doctors = [
   {
@@ -66,8 +66,8 @@ const DoctorsSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" className="bg-primary hover:bg-primary/90">
-            Все специалисты
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+            <Link to="/doctors">Все специалисты</Link>
           </Button>
         </div>
       </div>

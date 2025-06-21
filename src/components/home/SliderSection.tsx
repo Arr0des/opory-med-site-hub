@@ -1,4 +1,3 @@
-
 import {
   Carousel,
   CarouselContent,
@@ -7,6 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const slides = [
   {
@@ -41,8 +41,8 @@ const SliderSection = () => {
                   <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
                     {slide.description}
                   </p>
-                  <Button size="lg" className="bg-primary hover:bg-primary/90">
-                    Узнать больше
+                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                    <Link to="/about">Узнать больше</Link>
                   </Button>
                 </div>
               </div>
