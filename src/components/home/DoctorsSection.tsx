@@ -43,20 +43,20 @@ const DoctorsSection = () => {
           {doctors.map((doctor, index) => (
             <div 
               key={index} 
-              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow flex flex-col"
             >
               <div className="h-64 bg-gray-200">
                 <div className="w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center text-gray-500">
                   Фото врача
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-lg font-semibold text-gray-800">{doctor.name}</h3>
                 <p className="text-primary font-medium">{doctor.specialty}</p>
-                <p className="text-gray-600 text-sm mt-1">{doctor.experience}</p>
+                <p className="text-gray-600 text-sm mt-1 mb-4 flex-grow">{doctor.experience}</p>
                 <Button 
                   variant="outline" 
-                  className="mt-4 w-full border-primary text-primary hover:bg-primary/10"
+                  className="w-full border-primary text-primary hover:bg-primary/10"
                 >
                   Записаться
                 </Button>
