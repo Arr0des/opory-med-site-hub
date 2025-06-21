@@ -51,7 +51,7 @@ const Profile = () => {
                   Личный кабинет
                 </CardTitle>
                 <CardDescription>
-                  {user.user_metadata?.name || user.email}
+                  {user.name || user.email}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -60,10 +60,10 @@ const Profile = () => {
                     <p className="text-sm font-medium text-muted-foreground">Email</p>
                     <p>{user.email}</p>
                   </div>
-                  {user.user_metadata?.phone && (
+                  {user.phone && (
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Телефон</p>
-                      <p>{user.user_metadata.phone}</p>
+                      <p>{user.phone}</p>
                     </div>
                   )}
                   <Button variant="outline" className="w-full" onClick={() => navigate("/")}>

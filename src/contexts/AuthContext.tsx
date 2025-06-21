@@ -1,83 +1,106 @@
 
-import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Session, User } from '@supabase/supabase-js'
+import { createContext, useContext, useState, ReactNode } from 'react'
+import { AuthContextType, AuthUser } from '@/types/auth'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuthActions } from '@/hooks/useAuthActions'
-import { AuthContextType } from '@/types/auth'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<Session | null>(null)
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<AuthUser | null>(null)
+  const [loading, setLoading] = useState(false)
   const { toast } = useToast()
-  const { signIn, signUp, signOut } = useAuthActions()
 
-  useEffect(() => {
-    const setData = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession()
-      if (error) {
-        console.error(error)
-        toast({
-          title: "Ошибка",
-          description: "Не удалось получить сессию",
-          variant: "destructive",
-        })
-      } else {
-        setSession(session)
-        setUser(session?.user ?? null)
+  const signIn = async (email: string, password: string) => {
+    setLoading(true)
+    try {
+      // Имитация входа - в реальном приложении здесь был бы API вызов
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const mockUser: AuthUser = {
+        id: '1',
+        email,
+        name: 'Тестовый пользователь',
+        phone: '+7 (XXX) XXX-XX-XX'
       }
+      
+      setUser(mockUser)
+      localStorage.setItem('auth_user', JSON.stringify(mockUser))
+      
+      toast({
+        title: "Успешно!",
+        description: "Вы успешно вошли в систему",
+      })
+    } catch (error) {
+      toast({
+        title: "Ошибка входа",
+        description: "Проверьте данные и попробуйте снова",
+        variant: "destructive",
+      })
+      throw error
+    } finally {
       setLoading(false)
     }
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-      setUser(session?.user ?? null)
+  }
+
+  const signUp = async (email: string, password: string, name: string, phone: string) => {
+    setLoading(true)
+    try {
+      // Имитация регистрации - в реальном приложении здесь был бы API вызов
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const mockUser: AuthUser = {
+        id: '1',
+        email,
+        name,
+        phone
+      }
+      
+      setUser(mockUser)
+      localStorage.setItem('auth_user', JSON.stringify(mockUser))
+      
+      toast({
+        title: "Успешно!",
+        description: "Вы успешно зарегистрировались",
+      })
+    } catch (error) {
+      toast({
+        title: "Ошибка регистрации",
+        description: "Проверьте данные и попробуйте снова",
+        variant: "destructive",
+      })
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const signOut = () => {
+    setUser(null)
+    localStorage.removeItem('auth_user')
+    toast({
+      title: "Выход выполнен",
+      description: "Вы успешно вышли из системы",
     })
-
-    setData()
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [toast])
-
-  const handleSignIn = async (email: string, password: string) => {
-    setLoading(true)
-    try {
-      await signIn(email, password)
-    } finally {
-      setLoading(false)
-    }
   }
 
-  const handleSignUp = async (email: string, password: string, name: string, phone: string) => {
-    setLoading(true)
-    try {
-      return await signUp(email, password, name, phone)
-    } finally {
-      setLoading(false)
+  // При инициализации проверяем localStorage
+  useState(() => {
+    const savedUser = localStorage.getItem('auth_user')
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser))
+      } catch (error) {
+        localStorage.removeItem('auth_user')
+      }
     }
-  }
-
-  const handleSignOut = async () => {
-    setLoading(true)
-    try {
-      await signOut()
-    } finally {
-      setLoading(false)
-    }
-  }
+  })
 
   const value = {
-    session,
     user,
     loading,
-    signIn: handleSignIn,
-    signUp: handleSignUp,
-    signOut: handleSignOut,
+    signIn,
+    signUp,
+    signOut,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -60,7 +60,7 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>
-                  {user?.user_metadata?.name || user.email}
+                  {user?.name || user.email}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
