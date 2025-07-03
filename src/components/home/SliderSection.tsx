@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import EditButton from "@/components/admin/EditButton";
 
 const slides = [
   {
@@ -27,8 +28,14 @@ const slides = [
 ];
 
 const SliderSection = () => {
+  const handleEdit = () => {
+    console.log("Редактирование слайдера");
+    // Здесь будет логика открытия модального окна редактирования
+  };
+
   return (
     <section className="min-h-screen relative">
+      <EditButton onClick={handleEdit} />
       <Carousel className="w-full h-screen">
         <CarouselContent>
           {slides.map((slide, index) => (

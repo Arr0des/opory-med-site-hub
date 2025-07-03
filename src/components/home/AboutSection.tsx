@@ -1,10 +1,16 @@
 
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import EditButton from "@/components/admin/EditButton";
 
 const AboutSection = () => {
+  const handleEdit = () => {
+    console.log("Редактирование секции О нас");
+  };
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white relative">
+      <EditButton onClick={handleEdit} />
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1">

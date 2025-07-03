@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import EditButton from "@/components/admin/EditButton";
 
 const doctors = [
   {
@@ -29,8 +30,13 @@ const doctors = [
 ];
 
 const DoctorsSection = () => {
+  const handleEdit = () => {
+    console.log("Редактирование врачей");
+  };
+
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50 relative">
+      <EditButton onClick={handleEdit} />
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Наши врачи</h2>

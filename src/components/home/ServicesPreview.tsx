@@ -1,7 +1,7 @@
-
 import { Shield, Stethoscope, Heart, Calendar, User, Pill, Activity, Eye, Baby, Microscope, Syringe, Scissors, Zap, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import EditButton from "@/components/admin/EditButton";
 
 const featuredServices = [
   {
@@ -37,8 +37,13 @@ const featuredServices = [
 ];
 
 const ServicesPreview = () => {
+  const handleEdit = () => {
+    console.log("Редактирование услуг");
+  };
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white relative">
+      <EditButton onClick={handleEdit} />
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Наши услуги</h2>

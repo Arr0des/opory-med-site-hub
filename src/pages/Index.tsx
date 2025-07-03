@@ -8,6 +8,7 @@ import AboutSection from "@/components/home/AboutSection";
 import ContactSection from "@/components/home/ContactSection";
 import AppointmentSection from "@/components/home/AppointmentSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import AdminToggle from "@/components/admin/AdminToggle";
 
 const Index = () => {
   return (
@@ -23,6 +24,7 @@ const Index = () => {
         <ContactSection />
       </main>
       <Footer />
+      <AdminToggle />
     </div>
   );
 };

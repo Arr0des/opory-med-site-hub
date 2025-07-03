@@ -3,10 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import EditButton from "@/components/admin/EditButton";
 
 const AppointmentSection = () => {
+  const handleEdit = () => {
+    console.log("Редактирование формы записи");
+  };
+
   return (
-    <section className="py-20 bg-primary/5">
+    <section className="py-20 bg-primary/5 relative">
+      <EditButton onClick={handleEdit} />
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Запись на приём</h2>

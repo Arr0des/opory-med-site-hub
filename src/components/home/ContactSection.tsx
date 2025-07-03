@@ -1,9 +1,16 @@
+
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import EditButton from "@/components/admin/EditButton";
 
 const ContactSection = () => {
+  const handleEdit = () => {
+    console.log("Редактирование контактов");
+  };
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white relative">
+      <EditButton onClick={handleEdit} />
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Контакты</h2>
